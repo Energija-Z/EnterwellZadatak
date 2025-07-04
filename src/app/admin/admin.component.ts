@@ -4,11 +4,11 @@ import { NgFor, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { ExecuteComponent } from '../execute/execute.component';
 
 @Component({
   selector: 'app-admin',
-  imports: [NgFor, CommonModule, FormsModule],
+  imports: [NgFor, CommonModule, FormsModule, ExecuteComponent],
   providers: [AppService],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
@@ -17,6 +17,7 @@ import { provideHttpClient } from '@angular/common/http';
 export class AdminComponent {
   quizName!: string;
   //message: string = "";
+  displayed: boolean = true;
   tmpQuestions = new Array(
     new Question("Tajno pitanje?", "#secret")
   );
@@ -93,14 +94,19 @@ export class AdminComponent {
     else{
       let questionsForQuiz = new Array();
       document.querySelectorAll("#create div:nth-child(2) ul").forEach($question => {
-        let questionAnswerForQuiz = $question.nextElementSibling?.querySelector("input")!.value!;
-        let questionTitle = $question.querySelector("input")!.value;
+        let questionTitle = (<HTMLInputElement>$question.querySelector("li:first-child input")!).value!;
+        let questionAnswer = (<HTMLInputElement>$question.querySelector("li:last-child input")!).value;
 
-        questionsForQuiz.push(new Question(questionTitle, questionAnswerForQuiz));
+        questionsForQuiz.push(new Question(questionTitle, questionAnswer));
       });
       this.quiz.push(new Quiz(
         this.quizName, questionsForQuiz
       ))
+      let questionFields = document.querySelectorAll("#create div ul");
+      if(questionFields.length > 1)
+        for(let i = 1; i < questionFields.length; i++){
+          document.querySelector("#create div ul")?.remove();
+        }
     }
   }
 
@@ -127,7 +133,6 @@ export class AdminComponent {
    */
   recycleQuestion(){
     if(this.tmpQuestions.length > 0){
-      this.addQuestion();
       let inputElements = document.querySelectorAll("#create input[type='text']");
       let recycledQuestion = this.tmpQuestions.pop();
       (<HTMLInputElement>inputElements[inputElements.length - 1]).value = recycledQuestion!.answer;
@@ -148,7 +153,6 @@ export class AdminComponent {
    * Započeti kviz na /play (ExecuteComponent) (GET)
    */
   startQuiz(iterator: number){
-    console.log(this.quiz[iterator]);
     this.router.navigate(["play"], {state: this.quiz[iterator]});
   }
 
