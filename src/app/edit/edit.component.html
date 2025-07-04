@@ -1,0 +1,10 @@
+<div>
+    <label>Naziv kviza: <input type="text" [(ngModel)]="quizName"/></label>
+    <ul *ngFor="let i of questions, index as iterator">
+        <li><label>Pitanje {{iterator + 1}}: <input type="text" value={{i.question}}/></label></li>
+        <ul>
+            <li><label>Odgovor {{iterator + 1}}: <input type="text" value={{i.answer}}/></label></li>
+        </ul>
+    </ul>
+</div>
+<button (click)="saveChanges()">Spremi promjene</button>

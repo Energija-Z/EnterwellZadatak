@@ -1,0 +1,9 @@
+<div>
+    <h1>{{quizName}}</h1>
+    <span>{{quizCurrentQuestion}}</span><br/><br/>
+    <p *ngIf="revealed">{{quizCurrentAnswer}}</p><br/>
+    <button (click)="revealAnswer()">Otkrij riješenje</button>
+    <button *ngIf="prev" (click)="switchQuestion(-1)">← Prethodno pitanje</button>
+    <button *ngIf="next" (click)="switchQuestion(1)">Sljedeće pitanje →</button>
+    <button (click)="returnToAdmin()">Završi kviz</button>
+</div>

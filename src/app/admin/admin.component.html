@@ -1,0 +1,39 @@
+<aside>
+    <ul class="admin">
+        <li (click)="displayTab('select')">Pregledaj</li>
+        <li (click)="displayTab('create')">Stvori</li>
+    </ul>
+</aside>
+
+<main>
+    <section class="container" id="select">
+        <span *ngFor="let i of quiz, index as iterator">
+            <div (click)="editQuiz(iterator)">
+                <p>{{i.title}}</p>
+                
+                <span>Broj pitanja: {{i.questions.length}}</span>
+            </div>
+            <span>
+                <button (click)="deleteQuiz(i.title)">Izbriši</button>
+                <button (click)="startQuiz(iterator)">Pokreni kviz ►</button>
+            </span>
+        </span>
+    </section>
+
+    <section class="container" id="create">
+        <div>
+            <label>Naslov kviza: <input type="text" class="formQuiz" [(ngModel)]="quizName" placeholder="Upišite naziv kviza"/></label>
+            <button (click)="addQuestion()">Dodaj pitanje +</button><br/>
+        </div>
+        <div>
+            <ul>
+                <li><label>Pitanje: <input type="text" class="formQuiz" placeholder="Upišite pitanje"/></label></li>
+                <li><label>Odgovor: <input type="text" class="formQuiz" placeholder="Upišite odgovor"/></label></li>
+            </ul>
+        </div>
+        <span>
+            <button (click)="recycleQuestion()">Ponovno upotrebi pitanje</button>
+            <button (click)="submitQuiz()">Spremi kviz</button>
+        </span>
+    </section>
+</main>

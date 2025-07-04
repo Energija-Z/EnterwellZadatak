@@ -1,0 +1,119 @@
+ul.admin {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+}
+
+ul.admin li {
+    float: left;
+    width: 25%;
+    margin:0 12.5%;
+    border-radius: 0 0 1em 1em;
+    background-color: lightblue;
+    border: 1px solid blue;
+    border-top: 0;
+}
+
+ul.admin li:hover {
+    text-decoration: underline;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}
+
+.container {
+    display: none;
+}
+
+.container.active {
+    display: block;
+}
+
+section {
+    width: 85%;
+}
+
+#select {
+    width: 90%;
+    margin: auto;
+}
+
+#select div + button {
+    margin-top: 1em;
+    float: left;
+    clear: left;
+    
+}
+
+#select > span {
+    margin-top: 2em;
+    width: calc(50% - 2em);
+    float: left;
+    border: 1px solid darkblue;
+    padding: 0.5em;
+    position: relative;
+}
+
+#select div span{
+    margin-left: 0;
+}
+
+#select div {
+    margin-bottom: 0.5em;
+}
+
+#select span button {
+    float: left;
+    margin-right: 1em;
+}
+
+#select span p + button {
+    top: -1.25em;
+    right: 0;
+}
+
+#select > span:nth-child(2n){
+    margin-left: 2em;
+}
+
+#select > span:nth-child(2n-1){
+    margin-right: 2em;
+}
+
+#select span:hover {
+    background-color: aliceblue;
+}
+
+#create div ul {
+    width: 100%;
+    padding-left: 0;
+}
+
+#create li:first-child {
+    margin-right: 1em;
+}
+
+#create div:first-child {
+    padding-bottom: 2em;
+}
+
+#create div ul li {
+    margin-bottom: 0.5em;
+}
+
+#create div li {
+    width: calc(50% - 0.5em);
+    float: left;
+    padding: 0;
+    list-style-type: none;
+}
+
+#create input {
+    width: 100%;
+}
+
+#create button {
+    margin-top: 0.5em;
+    margin-right: 1em;
+}

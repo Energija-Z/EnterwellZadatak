@@ -1,0 +1,33 @@
+div > label input {
+    margin-bottom: 2em;
+}
+
+div {
+    width: 100%;
+}
+
+div ul {
+    padding-left: 0;
+}
+
+div li {
+    width: calc(50% - 1em);
+    list-style-type: none;
+    float: left;
+}
+
+div ul input {
+    width: 100%;
+}
+
+li:first-child {
+    margin-right: 1em;
+}
+
+div:first-child {
+    padding-bottom: 2em;
+}
+
+div ul li {
+    margin-bottom: 0.5em;
+}
