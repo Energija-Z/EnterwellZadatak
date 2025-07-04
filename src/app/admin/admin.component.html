@@ -1,11 +1,13 @@
-<aside>
-    <ul class="admin">
-        <li (click)="displayTab('select')">Pregledaj</li>
-        <li (click)="displayTab('create')">Stvori</li>
-    </ul>
-</aside>
+<header *ngIf="displayed">
+    <aside>
+        <ul class="admin">
+            <li (click)="displayTab('select')">Pregledaj</li>
+            <li (click)="displayTab('create')">Stvori</li>
+        </ul>
+    </aside>
+</header>
 
-<main>
+<main *ngIf="displayed">
     <section class="container" id="select">
         <span *ngFor="let i of quiz, index as iterator">
             <div (click)="editQuiz(iterator)">
@@ -36,6 +38,16 @@
             <button (click)="submitQuiz()">Spremi kviz</button>
         </span>
     </section>
+</main>
 
-    <app-execute></app-execute>
+<main *ngIf="displayedQuiz">
+    <div>
+        <h1>{{currentQuizTitle}}</h1>
+        <span>{{quizCurrentQuestion}}</span><br/><br/>
+        <p *ngIf="revealed">{{quizCurrentAnswer}}</p><br/>
+        <button (click)="revealAnswer()">Otkrij riješenje</button>
+        <button *ngIf="prev" (click)="switchQuestion(-1)">← Prethodno pitanje</button>
+        <button *ngIf="next" (click)="switchQuestion(1)">Sljedeće pitanje →</button>
+        <button (click)="returnToAdmin()">Završi kviz</button>
+    </div>
 </main>

@@ -4,11 +4,10 @@ import { NgFor, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
-import { ExecuteComponent } from '../execute/execute.component';
 
 @Component({
   selector: 'app-admin',
-  imports: [NgFor, CommonModule, FormsModule, ExecuteComponent],
+  imports: [NgFor, CommonModule, FormsModule],
   providers: [AppService],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
@@ -18,6 +17,7 @@ export class AdminComponent {
   quizName!: string;
   //message: string = "";
   displayed: boolean = true;
+  displayedQuiz: boolean = false;
   tmpQuestions = new Array(
     new Question("Tajno pitanje?", "#secret")
   );
@@ -150,13 +150,6 @@ export class AdminComponent {
   }
 
   /**
-   * Započeti kviz na /play (ExecuteComponent) (GET)
-   */
-  startQuiz(iterator: number){
-    this.router.navigate(["play"], {state: this.quiz[iterator]});
-  }
-
-  /**
    * Dohvat svih pitanja, koja nisu "izbrisana" (GET)
    */
   getQuestions(){
@@ -165,5 +158,59 @@ export class AdminComponent {
       questions.push($element.questions)
     )
     return questions;
+  }
+  
+  protected currentQuiz?: Quiz;
+  protected index: number = 0;
+  protected questions?: Question[];
+  protected currentQuizTitle?: string;
+  protected quizCurrentQuestion?: string;
+  protected quizCurrentAnswer?: string;
+  next: boolean = true;
+  prev: boolean = false;
+  revealed: boolean = false;
+
+  /**
+   * Započeti kviz na /play (ExecuteComponent) (GET)
+   */
+  startQuiz(iterator: number){
+    this.currentQuiz = this.quiz[iterator];
+    this.currentQuizTitle = this.currentQuiz.title;
+    this.quizCurrentQuestion = this.currentQuiz.questions[0].question;
+    this.quizCurrentAnswer = this.currentQuiz.questions[0].answer;
+    this.displayed = false;
+    this.displayedQuiz = true;
+    if(this.currentQuiz.questions.length == 1)
+      this.next = false;
+    //this.router.navigate(["play"], {state: });
+  }
+
+  /**
+   * Pokazivanje odgovora pomoću varijable
+   */
+  revealAnswer(){
+    this.revealed = true;
+  }
+
+  /**
+   * Pomicanje pozicije pitanja za jedno mjesto unaprijed / unatrag (ako je odgovor prije bio vidljiv, stavlja se na nevidljivo)
+   */
+  switchQuestion(offset: number){
+    this.revealed = false;
+    this.prev = true;
+    this.next = true;
+    this.index += offset;
+    if(this.index == 0) this.prev = false;
+    if(this.index == this.currentQuiz!.questions.length - 1) this.next = false;
+    this.quizCurrentQuestion = this.currentQuiz?.questions[this.index].question;
+    this.quizCurrentAnswer = this.currentQuiz!.questions[this.index].answer;
+  }
+  
+  /**
+   * Vraćanje na početnu stranicu
+   */
+  returnToAdmin(){
+    this.displayedQuiz = false;
+    this.displayed = true;
   }
 }
